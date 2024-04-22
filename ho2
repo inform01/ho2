@@ -1,0 +1,67 @@
+function getRandomDay(month) {
+  // Define the number of days in each month
+  const daysInMonth = {
+    1: 31, // January
+    2: 28, // February (leap years are not accounted for in this example)
+    3: 31, // March
+    4: 30, // April
+    5: 31, // May
+    6: 30, // June
+    7: 31, // July
+    8: 31, // August
+    9: 30, // September
+    10: 31, // October
+    11: 30, // November
+    12: 31  // December
+  };
+
+  // Get the number of days in the given month
+  const maxDay = daysInMonth[month];
+
+  // Generate a random day in the given month
+  return Math.floor(Math.random() * maxDay) + 1;
+}
+
+// Generate a random month and a random day
+const randomMonth = Math.floor(Math.random() * 12) + 1;
+const randomDay = getRandomDay(randomMonth);
+
+global.set("globalMonth", randomMonth.toString());
+global.set("globalDay", randomDay.toString());
+
+// Construct the URL
+msg.url = `https://numbersapi.p.rapidapi.com/${randomMonth}/${randomDay}/date?fragment=true&json=true`;
+return msg;
+
+const randomDateString = `Random fact about date ${global.get('globalDay')}/${global.get('globalMonth')}\n\r`
+
+const messageJSON = JSON.parse(msg.payload);
+const yearAttachString = ` in the year ${messageJSON['year']}`
+
+let messageObject = {
+    "chatId": "1419888165",
+    "type": "message",
+    "content": `${randomDateString}${messageJSON['text']}${yearAttachString}`
+};
+msg.payload = messageObject;
+return msg;
+
+// Generate a random number, for example, between 1 and 1000
+let randomNumber = Math.floor(Math.random() * 1000) + 1;
+
+global.set("mathNumber", randomNumber.toString());
+
+// Concatenate the random number with the rest of the URL
+msg.url = 'https://numbersapi.p.rapidapi.com/' + randomNumber + '/math';
+
+return msg;
+
+// Generate a random number, for example, between 1 and 1000
+let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+global.set("triviaNumber", randomNumber.toString());
+
+// Concatenate the random number with the rest of the URL
+msg.url = 'https://numbersapi.p.rapidapi.com/' + randomNumber + '/trivia';
+
+return msg;
